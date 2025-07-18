@@ -1,0 +1,104 @@
+{
+  "scanner_settings": {
+    "default_threads": 5,
+    "default_delay": 1.0,
+    "default_timeout": 10,
+    "default_crawl_depth": 2,
+    "max_crawl_depth": 5,
+    "max_threads": 20,
+    "min_delay": 0.1,
+    "max_delay": 10.0
+  },
+  "payload_settings": {
+    "max_payloads_per_type": 50,
+    "enable_waf_bypass": true,
+    "enable_encoding": true,
+    "custom_payload_file": "payloads/custom_payloads.txt"
+  },
+  "detection_settings": {
+    "error_detection_enabled": true,
+    "time_based_detection_enabled": true,
+    "boolean_blind_detection_enabled": true,
+    "union_based_detection_enabled": true,
+    "second_order_detection_enabled": true,
+    "header_injection_detection_enabled": true,
+    "cookie_injection_detection_enabled": true,
+    "minimum_time_delay": 3.0,
+    "maximum_time_delay": 10.0,
+    "boolean_difference_threshold": 100,
+    "content_similarity_threshold": 0.8
+  },
+  "database_settings": {
+    "enable_database_dumping": true,
+    "max_tables_to_dump": 5,
+    "max_columns_per_table": 10,
+    "max_rows_per_table": 3,
+    "enable_blind_extraction": true,
+    "blind_extraction_max_length": 100
+  },
+  "authentication_settings": {
+    "enable_csrf_bypass": true,
+    "enable_session_management": true,
+    "session_maintenance_interval": 300,
+    "supported_auth_types": ["form", "basic", "digest", "jwt", "oauth"],
+    "enable_token_extraction": true
+  },
+  "proxy_settings": {
+    "enable_proxy_support": true,
+    "enable_burp_integration": true,
+    "enable_zap_integration": true,
+    "default_burp_port": 8080,
+    "default_zap_port": 8080,
+    "enable_cors_bypass": true
+  },
+  "output_settings": {
+    "default_output_format": "json",
+    "supported_formats": ["json", "html", "txt", "csv"],
+    "enable_detailed_logging": true,
+    "enable_request_logging": true,
+    "enable_response_logging": false,
+    "max_log_file_size": "10MB",
+    "log_rotation_enabled": true
+  },
+  "rate_limiting": {
+    "enable_rate_limiting": true,
+    "requests_per_second": 10,
+    "burst_limit": 20,
+    "enable_adaptive_delay": true,
+    "waf_detection_enabled": true,
+    "auto_slow_mode_threshold": 3
+  },
+  "advanced_settings": {
+    "enable_anomaly_detection": true,
+    "enable_pattern_matching": true,
+    "enable_fingerprinting": true,
+    "enable_response_analysis": true,
+    "max_response_size": "1MB",
+    "enable_content_analysis": true,
+    "similarity_algorithm": "sequence_matcher"
+  },
+  "security_settings": {
+    "verify_ssl": false,
+    "follow_redirects": true,
+    "max_redirects": 5,
+    "enable_user_agent_rotation": true,
+    "enable_header_randomization": false,
+    "respect_robots_txt": false
+  },
+  "error_handling": {
+    "max_retries": 3,
+    "retry_delay": 2.0,
+    "ignore_ssl_errors": true,
+    "ignore_timeout_errors": false,
+    "continue_on_error": true,
+    "log_all_errors": true
+  },
+  "reporting": {
+    "include_scan_statistics": true,
+    "include_payload_details": true,
+    "include_response_snippets": true,
+    "include_remediation_advice": true,
+    "generate_executive_summary": true,
+    "include_risk_assessment": true
+  }
+}

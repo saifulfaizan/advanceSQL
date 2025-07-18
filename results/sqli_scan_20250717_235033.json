@@ -1,0 +1,26 @@
+{
+  "scan_info": {
+    "timestamp": "2025-07-17T23:50:33.269950",
+    "scanner_version": "1.0.0",
+    "total_targets": 0,
+    "vulnerabilities_found": 0
+  },
+  "results": {
+    "targets": [],
+    "vulnerabilities": [],
+    "crawled_urls": [],
+    "parameters_found": {},
+    "database_dumps": [],
+    "scan_statistics": {
+      "scan_duration": 70.68699383735657,
+      "targets_tested": 0,
+      "vulnerabilities_found": 0,
+      "high_risk_vulns": 0,
+      "medium_risk_vulns": 0,
+      "low_risk_vulns": 0,
+      "urls_crawled": 0,
+      "forms_found": 0,
+      "parameters_found": 0
+    }
+  }
+}

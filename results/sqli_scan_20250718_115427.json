@@ -1,0 +1,28 @@
+{
+  "scan_info": {
+    "timestamp": "2025-07-18T11:54:27.031856",
+    "scanner_version": "1.0.0",
+    "total_targets": 0,
+    "vulnerabilities_found": 0
+  },
+  "results": {
+    "targets": [],
+    "vulnerabilities": [],
+    "crawled_urls": [
+      "https://ttx07.customs.gov.my/account/login"
+    ],
+    "parameters_found": {},
+    "database_dumps": [],
+    "scan_statistics": {
+      "scan_duration": 17.818034172058105,
+      "targets_tested": 0,
+      "vulnerabilities_found": 0,
+      "high_risk_vulns": 0,
+      "medium_risk_vulns": 0,
+      "low_risk_vulns": 0,
+      "urls_crawled": 1,
+      "forms_found": 0,
+      "parameters_found": 0
+    }
+  }
+}
